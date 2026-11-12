@@ -5,12 +5,13 @@ format:
     toc: true
     number-sections: true
 editor_options:
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(knitr)
 ```
 
 **Name: William Burgett-Merkel**
@@ -105,7 +106,10 @@ Again, look at the data dictionary to better understand how these two variables 
 **Task 6** _Reload the original, unfiltered Pulse dataset (not the one you used in parts 1 and 2). Select only observations for households displaced by a natural disaster using the ND_DISPLACE variable. Then filter for records with valid responses to INCOME and ND_HOWLONG. Call the head of the table with `kable` when done._
 
 ```{r Task6}
+pulse_2023_Only_Displaced<-read_csv("data/pulse_2023.csv") |> 
+  filter(ND_DISPLACE=="1" & INCOME>=0 & ND_HOWLONG>=0)
 
+kable(head(pulse_2023_Only_Displaced))
 ```
 
 **Task 7** _Create a contingency table of responses to the ND_HOWLONG variable by INCOME. The rows of this table should be the income groups and the columns should be the categorical variables showing time displaced. Call the table when you are done._
