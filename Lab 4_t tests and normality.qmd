@@ -94,7 +94,7 @@ pulse_2023_filtered_mean<-pulse_2023_filtered |>
   * Do you reject the null hypothesis? Why or why not? 
   * Based on the test result and the group means, what can we conclude about differences in the number of children between these two groups?
 
-Based on the p-value, which is 2.463e-12 (smaller than 0.05), I reject the null, meaning there is a difference between the two groups. Based on the p-value and the group means, I can conclude that the group that does not get displaced has more children by a statistically significant margin. I cannot say how statistically significant as that is not inferrable from my results, but the difference in the means was about .15 kids.
+Based on the p-value, which is 2.463e-12 (smaller than 0.05), I reject the null, meaning there is a difference between the two groups. Based on the p-value and the group means, I can conclude that the group that does not get displaced has more children (.15 more from the mean) by a statistically significant margin.
 
 ### Identifying differences in time displaced by natural disasters across income groups
 
