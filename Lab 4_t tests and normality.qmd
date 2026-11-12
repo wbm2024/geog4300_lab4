@@ -89,6 +89,8 @@ wilcox.test(pulse_2023_filtered$THHLD_NUMKID ~ pulse_2023_filtered$ND_DISPLACE)
 pulse_2023_filtered_mean<-pulse_2023_filtered |> 
   group_by(ND_DISPLACE) |> 
   summarise(mean=mean(THHLD_NUMKID))
+
+kable(pulse_2023_filtered_mean)
 ```
 
 **Task 5** _Interpret the results of the analysis you did in task 4._ 
@@ -117,14 +119,14 @@ kable(head(pulse_2023_Only_Displaced))
 ```{r Task7}
 Displaced_Table<-pulse_2023_Only_Displaced |> 
   count(ND_HOWLONG,INCOME,name="count") |> 
-  pivot_wider(names_from = ND_HOWLONG, values_from = count) |> 
-select(-INCOME)
+  pivot_wider(names_from = ND_HOWLONG, values_from = count)
+kable(Displaced_Table)
 ```
 
 **Task 8** _Run a chi-square test on your contingency table to assess whether there are statistically significant differences in displacement time between these income groups. You'll likely need to delete the INCOME variable to do so._ 
 
 ```{r Task8}
-
+chisq.test(Displaced_Table |> select(-INCOME))
 ```
 
 **Task 9** _To help with your interpretation of results, Calculate the percentage of households within each income group that fall into category 1 of ND_HOWLONG ("displaced less than a week")._
