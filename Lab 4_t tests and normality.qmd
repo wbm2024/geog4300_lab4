@@ -60,7 +60,12 @@ You'll be conducting a two-sample test of difference to look at whether the numb
 **Task 2** _Assess the normality of this variable using either a histogram OR a qq line. Make sure your plot is visible and interpret what it shows you about the normality of this variable._
 
 ```{r Task2}
+ggplot(pulse_2023_filtered,aes(x=THHLD_NUMKID)) +
+  geom_histogram()
 
+ggplot(pulse_2023_filtered, aes(sample=THHLD_NUMKID)) +
+  stat_qq() +
+  stat_qq_line()
 ```
 
 ### Testing the difference in number of children.
