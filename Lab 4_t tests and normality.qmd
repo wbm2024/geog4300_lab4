@@ -74,17 +74,27 @@ Now you can test whether the number of children differs between displaced and no
 
 **Task 3** _Based on the normality of the data, what is the appropriate statistical test for determining whether the number of children differs between these two groups? Explain why this test is appropriate and give a null and alternative hypothesis for this test_
 
-{Your answer here}
+I would use the Non-parametric (Wilcoxon) t-test. I chose this test because the data is not normally distributed as seen in both the histogram (skews heavily to the right) and the qq plot (not a straight line that follows the qq line).
+
+Null Hypothesis: The number of children between the group that was and group that was not displaced by a natural disaster is not different.
+
+Alternative Hypothesis: The number of children between the group that was and group that was not displaced by a natural disaster is different.
 
 **Task 4** _Run the test you identified in Task 3. Also calculate the mean for each dataset, which you can use to determine the nature of the difference--which group (if any) has more children._
 
 ```{r Task4}
+wilcox.test(pulse_2023_filtered$THHLD_NUMKID ~ pulse_2023_filtered$ND_DISPLACE)
 
+pulse_2023_filtered_mean<-pulse_2023_filtered |> 
+  group_by(ND_DISPLACE) |> 
+  summarise(mean=mean(THHLD_NUMKID))
 ```
 
 **Task 5** _Interpret the results of the analysis you did in task 4._ 
   * Do you reject the null hypothesis? Why or why not? 
   * Based on the test result and the group means, what can we conclude about differences in the number of children between these two groups?
+
+Based on the p-value, which is 2.463e-12 (smaller than 0.05), I reject the null, meaning there is a difference between the two groups. Based on the p-value and the group means, I can conclude that the group that does not get displaced has more children by a statistically significant margin. I cannot say how statistically significant as that is not inferrable from my results, but the difference in the means was about .15 kids.
 
 ### Identifying differences in time displaced by natural disasters across income groups
 
