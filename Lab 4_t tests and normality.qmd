@@ -120,6 +120,7 @@ kable(head(pulse_2023_Only_Displaced))
 Displaced_Table<-pulse_2023_Only_Displaced |> 
   count(ND_HOWLONG,INCOME,name="count") |> 
   pivot_wider(names_from = ND_HOWLONG, values_from = count)
+
 kable(Displaced_Table)
 ```
 
@@ -132,12 +133,34 @@ chisq.test(Displaced_Table |> select(-INCOME))
 **Task 9** _To help with your interpretation of results, Calculate the percentage of households within each income group that fall into category 1 of ND_HOWLONG ("displaced less than a week")._
 
 ```{r Task9}
+Displaced_Table_PCT<-Displaced_Table |> 
+pivot_longer(`1`:`5`,
+             names_to = "ND_HOWLONG",
+             values_to = "count") |> 
+  group_by(INCOME) |> mutate(total=sum(count)) |> 
+  mutate(pct=round(count/sum(count)*100,2)) |> 
+  filter(ND_HOWLONG == "1") |> 
+  select(-count) |> 
+  pivot_wider(names_from = ND_HOWLONG, values_from = pct)
 
+#I want to see, separate from the task, what each column would look like
+Displaced_Table_PCT_ALL<-Displaced_Table |> 
+pivot_longer(`1`:`5`,
+             names_to = "ND_HOWLONG",
+             values_to = "count") |> 
+  group_by(INCOME) |> mutate(total=sum(count)) |> 
+  mutate(pct=round(count/sum(count)*100,2)) |> 
+  select(-count) |> 
+  pivot_wider(names_from = ND_HOWLONG, values_from = pct)
 ```
 
 **Task 10** _Interpret the results of your analysis in tasks 8 and 9._ 
   * Do you reject the null hypothesis based on these results and why (or why not)? 
   * What do your results in Task 9 tell you about differences in how quickly households were able to return?
+
+I would reject the null hypothesis that there is no difference in how quickly different income categories return home after a natural disaster. I would reject the null hypothesis because the p-value is much lower than 0.05 (2.2e-16). Furthermore, looking at the chi-square distribution table, with a df=28, we would need a X-squared of 41.337 to reject the null. The X-squared value we get from this data is 210.51, so we can reject the null hypothesis using the chi squared table as well.
+
+The results from task 9 tell me that lower income families tend to not return home nearly as quick as wealthy families. Wealthy families return home within a week between 50 and 60 percent of the time, but low income families only do so about 30 percent of the time. I dug further into how long it usually takes low income communities and over 20 percent of the time they don't return home at all. These results overall show that low income families return home in less than a week at nearly have the rate as higher income families.
 
 ### Challenge Question:
 Calculate and map the percentage of households reporting displacement (ND_DISPLACE) by state. To do so, you'll need to start with a version of the dataset that excludes non-valid responses and then calculate the percentage displaced by state.
@@ -152,8 +175,8 @@ Once you've calculated that estimate, map it out using the `states_albers` geopa
 
 **Disclosure of assistance:** Besides class materials, what other sources of assistance did you use while completing this lab? These can include input from classmates, relevant material identified through web searches (e.g., Stack Overflow), or assistance from ChatGPT or other AI tools. How did these sources support your own learning in completing this lab?
 
-{Response here.}
+Outside of the class material I had help from Google's AI and 2 classmates. I had to use essentially all 3 to do task 4 because I was confused how we were supposed to test each group from 1 column. Selena helped me by telling me the tilde would group the ND_DISPLACE to either 1 and 2 and sort the THHLD_NUMKID data into them. I then used AI to explore how that was different than the comma version we used in class. Grayson and I also collabed on task 4 briefly, where we discussed the differences in using the comma versus tilde because he was doing what I initially did. After task 4, the only help I needed outside of class material was on task 9, where Grayson and I different looking tables. I missed the chi-squared class where we covered this stuff because I was doing a job shadow at the NWS Greenville-Spartanburg office so while I went back and watched the video, I still needed a bit more help with the percentage table and Grayson helped me understand what went where and why. We collaborated on how to produce the percent table in task 9. Other than those 2 tasks though I just used class notes and scripts for everything else.
 
 **Lab reflection:** How do you feel about the work you did on this lab? Was it easy, moderate, or hard? What are the biggest things you learned by completing it?
 
-{Your response here}
+The lab overall was very straightforward. I did not struggle with any task outside of task 4. I found that task a bit frustrating because I don't remember using the ~ before to group data, so I was struggling through that one a fair bit before Selena helped me understand the use of the ~. Other than that 1 task everything else was straightforward. The biggest thing I learned was how efficient it is to run statistical tests in R. If I had known before I was mostly done with my thesis I would have just run the tests in R.
